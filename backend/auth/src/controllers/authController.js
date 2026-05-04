@@ -4,7 +4,20 @@ const signup = async (req, res, next) => {
   try {
     console.log('Signup request body:', req.body);
     const { name, email, password } = req.body;
+    console.log('Signup data:', { name, email });
     const result = await authService.signup({ name, email, password });
+    res.status(201).json({ success: true, data: result });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const signupf = async (req, res, next) => {
+  try {
+    console.log('Signupf request body:', req.body);
+    const { name, email, password } = req.body;
+    console.log('Signupf data:', { name, email });
+    const result = await authService.signupf({ name, email, password });
     res.status(201).json({ success: true, data: result });
   } catch (err) {
     next(err);
@@ -54,4 +67,4 @@ const getMe = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, login, refresh, logout, getMe };
+module.exports = { signup, login, refresh, logout, getMe, signupf };

@@ -37,6 +37,33 @@ const signup = async ({ name, email, password }) => {
   };
 };
 
+const signupf = async ({ name, email, password }) => {
+  const existing = await User.findOne({ where: { email } });
+  if (existing) {
+    const err = new Error('Email already in use');
+    err.statusCode = 409;
+    throw err;
+  }
+
+  const password_hash = await bcrypt.hash(password, config.BCRYPT_ROUNDS);
+  const user = await User.create({ name, email, password_hash });
+
+  // const accessToken = tokenService.signAccessToken({ id: user.id, email: user.email });
+  // const refreshToken = tokenService.signRefreshToken({ id: user.id });
+
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 7);
+
+  // await Session.create({
+  //   user_id: user.id,
+  //   refresh_token: refreshToken,
+  //   expires_at: expiresAt,
+  // });
+
+  //await cacheSession(user.id, { id: user.id, email: user.email, name: user.name }, 900);
+
+};
+
 const login = async ({ email, password }) => {
   const user = await User.findOne({ where: { email } });
   if (!user) {
@@ -134,4 +161,4 @@ const getMe = async (userId) => {
   return user;
 };
 
-module.exports = { signup, login, refresh, logout, getMe };
+module.exports = { signup, login, refresh, logout, getMe, signupf };
