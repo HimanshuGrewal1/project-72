@@ -47,10 +47,10 @@ router.post('/link-wallet', async (req, res) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     
     // Check if wallet is already used by someone else
-    const walletExists = await User.findOne({ walletAddress });
-    if (walletExists && walletExists._id.toString() !== decoded.id) {
-      return res.status(400).json({ error: "Wallet already linked to another account." });
-    }
+    // const walletExists = await User.findOne({ walletAddress });
+    // if (walletExists && walletExists._id.toString() !== decoded.id) {
+    //   return res.status(400).json({ error: "Wallet already linked to another account." });
+    // }
 
     // Update the user's document with their wallet
     await User.findByIdAndUpdate(decoded.id, { walletAddress });

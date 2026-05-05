@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true }, // Hashed password
-  walletAddress: { type: String, unique: true, sparse: true }, // Linked wallet
+  walletAddress: { type: String }, // Linked wallet
   createdAt: { type: Date, default: Date.now }
 });
 
